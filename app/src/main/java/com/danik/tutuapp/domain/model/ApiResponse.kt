@@ -1,4 +1,4 @@
-package com.danik.tutuapp.domain
+package com.danik.tutuapp.domain.model
 
 import kotlinx.serialization.Serializable
 
