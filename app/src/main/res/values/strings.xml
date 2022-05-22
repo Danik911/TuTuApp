@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TuTuApp</string>
+    <string name="splash_screen_logo">Splash screen logo</string>
 </resources>
