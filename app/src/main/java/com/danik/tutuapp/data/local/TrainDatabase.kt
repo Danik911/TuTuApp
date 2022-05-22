@@ -34,6 +34,6 @@ abstract class TrainDatabase : RoomDatabase() {
         }
     }
 
-    abstract fun heroDao(): TrainDao
-    abstract fun heroRemoteKeyDao(): TrainRemoteKeyDao
+    abstract fun trainDao(): TrainDao
+    abstract fun trainRemoteKeyDao(): TrainRemoteKeyDao
 }
