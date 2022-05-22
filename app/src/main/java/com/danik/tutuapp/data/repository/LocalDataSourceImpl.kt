@@ -1,7 +1,6 @@
 package com.danik.tutuapp.data.repository
 
 import com.danik.tutuapp.data.local.TrainDatabase
-import com.danik.tutuapp.data.local.dao.TrainDao
 import com.danik.tutuapp.domain.model.Train
 import com.danik.tutuapp.domain.repository.LocalDataSource
 
