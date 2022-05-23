@@ -118,18 +118,10 @@ class TrainRemoteMediator @Inject constructor(
     }
 
     private suspend fun getRemoteKeysForFirstItem(state: PagingState<Int, Train>): TrainRemoteKey? {
-        val firstPage = state.pages.firstOrNull()
-        val firstRemoteKey =
-            if (firstPage?.data?.isNotEmpty() == true) {
-                firstPage.data.firstOrNull()?.let { train ->
-                    trainRemoteKeyDao.getRemoteKey(trainId = train.id)
-                }
-            } else null
-        return firstRemoteKey
 
-        /*  return state.pages.firstOrNull() { it?.data.isNotEmpty() }?.data?.lastOrNull()?.let { hero ->
-              heroRemoteKeyDao.getRemoteKey(heroId = hero.id)
-          }*/
+          return state.pages.firstOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()?.let { train ->
+              trainRemoteKeyDao.getRemoteKey(trainId = train.id)
+          }
 
     }
 
