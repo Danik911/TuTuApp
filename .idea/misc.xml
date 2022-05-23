@@ -4,7 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Daniil/Downloads/TuTuApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1065" />
+        <entry key="..\:/Users/Daniil/Downloads/TuTuApp/app/src/main/res/drawable/ic__placeholder.xml" value="0.1" />
         <entry key="..\:/Users/Daniil/Downloads/TuTuApp/app/src/main/res/drawable/ic__train.xml" value="0.187" />
+        <entry key="..\:/Users/Daniil/Downloads/TuTuApp/app/src/main/res/drawable/ic_network_error.xml" value="0.1" />
+        <entry key="..\:/Users/Daniil/Downloads/TuTuApp/app/src/main/res/drawable/ic_search_document.xml" value="0.1" />
         <entry key="..\:/Users/Daniil/Downloads/TuTuApp/app/src/main/res/drawable/ic_train.xml" value="0.1405" />
       </map>
     </option>

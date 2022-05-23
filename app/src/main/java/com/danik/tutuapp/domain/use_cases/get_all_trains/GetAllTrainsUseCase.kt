@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 class GetAllTrainsUseCase(private val repository: Repository) {
 
-    suspend operator fun invoke(): Flow<PagingData<Train>> {
+    operator fun invoke(): Flow<PagingData<Train>> {
         return repository.getAllTrains()
     }
 }
