@@ -33,7 +33,7 @@ import java.net.SocketTimeoutException
 @Composable
 fun EmptyScreen(error: LoadState.Error? = null, trains: LazyPagingItems<Train>) {
     var message by remember {
-        mutableStateOf("Find your Favorite Hero!")
+        mutableStateOf("Find your Favorite Train!")
     }
     var icon by remember {
         mutableStateOf(R.drawable.ic_search_document)

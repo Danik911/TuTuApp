@@ -3,6 +3,8 @@ package com.danik.tutuapp.di
 import android.content.Context
 import androidx.room.Room
 import com.danik.tutuapp.data.local.TrainDatabase
+import com.danik.tutuapp.data.repository.LocalDataSourceImpl
+import com.danik.tutuapp.domain.repository.LocalDataSource
 import com.danik.tutuapp.util.Constants.TRAIN_DATABASE
 import dagger.Module
 import dagger.Provides
@@ -23,6 +25,13 @@ object DatabaseModule {
             TrainDatabase::class.java,
             TRAIN_DATABASE
         ).build()
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideLocalDataSource(trainDatabase: TrainDatabase): LocalDataSource {
+        return LocalDataSourceImpl(database = trainDatabase)
     }
 
 }
