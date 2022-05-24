@@ -23,9 +23,6 @@ fun MainScreen(
         systemUiController.setStatusBarColor(color = topAppBarBackgroundColor)
     }
     Scaffold(
-        topBar = {
-
-        },
         content = {
             ListContent(trains = allTrains, navController = navHostController)
         }

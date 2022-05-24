@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 
 @OptIn(ExperimentalPagingApi::class)
-class TrainRemoteMediator @Inject constructor(
+class TrainRemoteMediator (
     private val trainApi: TrainApi,
     private val trainDatabase: TrainDatabase
 ) : RemoteMediator<Int, Train>() {
