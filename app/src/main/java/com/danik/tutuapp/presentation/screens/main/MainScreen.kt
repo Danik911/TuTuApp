@@ -16,6 +16,7 @@ fun MainScreen(
     viewModel: MainScreenViewModel = hiltViewModel()
 ) {
     val allTrains = viewModel.allTrains.collectAsLazyPagingItems()
+
     val systemUiController = rememberSystemUiController()
     val topAppBarBackgroundColor = MaterialTheme.colors.topAppBarBackgroundColor
     SideEffect {

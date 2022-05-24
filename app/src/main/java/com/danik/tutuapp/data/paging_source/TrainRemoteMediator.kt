@@ -54,8 +54,10 @@ class TrainRemoteMediator @Inject constructor(
                 LoadType.REFRESH -> {
                     val remoteKeys = getRemoteKeysClosestToCurrentPosition(state)
                     remoteKeys?.nextPage?.minus(1) ?: 1
+                    Log.d("TrainRemoteMediator", "Refresh")
                 }
                 LoadType.PREPEND -> {
+                    Log.d("TrainRemoteMediator", "Prepend")
                     val remoteKeys = getRemoteKeysForFirstItem(state)
                     val prevPage = remoteKeys?.prevPage
                         ?: return MediatorResult.Success(
@@ -63,13 +65,16 @@ class TrainRemoteMediator @Inject constructor(
                         )
                     prevPage
 
+
                 }
                 LoadType.APPEND -> {
+                    Log.d("TrainRemoteMediator", "Append")
                     val remoteKey = getRemoteKeyForLastItem(state)
                     val nextPage = remoteKey?.nextPage ?: return MediatorResult.Success(
                         endOfPaginationReached = remoteKey != null
                     )
                     nextPage
+
                 }
             }
 
@@ -119,10 +124,15 @@ class TrainRemoteMediator @Inject constructor(
 
     private suspend fun getRemoteKeysForFirstItem(state: PagingState<Int, Train>): TrainRemoteKey? {
 
-          return state.pages.firstOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()?.let { train ->
-              trainRemoteKeyDao.getRemoteKey(trainId = train.id)
-          }
 
+        val firstPage = state.pages.firstOrNull()
+        val firstRemoteKey =
+            if (firstPage?.data?.isNotEmpty() == true) {
+                firstPage.data.firstOrNull()?.let { train ->
+                    trainRemoteKeyDao.getRemoteKey(trainId = train.id)
+                }
+            } else null
+        return firstRemoteKey
     }
 
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, Train>): TrainRemoteKey? {
