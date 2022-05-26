@@ -28,7 +28,7 @@ import com.danik.tutuapp.util.Constants.ABOUT_TEXT_MAX_LINES
 import com.danik.tutuapp.util.Constants.BASE_URL
 import com.danik.tutuapp.util.Constants.MIN_HEIGHT_FRACTION_VALUE
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-
+import androidx.compose.material.BottomSheetValue.Expanded
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -39,7 +39,7 @@ fun DetailsContent(
 ) {
 
     val bottomSheetState = rememberBottomSheetScaffoldState(
-        bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Expanded)
+        bottomSheetState = rememberBottomSheetState(initialValue = Expanded)
     )
 
 
@@ -63,11 +63,6 @@ fun DetailsContent(
         vibrantDarkColor = colors["darkVibrant"]!!
         vibrantOnDarkColor = colors["onDarkVibrant"]!!
 
-    }
-    val systemUiController = rememberSystemUiController()
-    val topAppBarBackgroundColor = Color(parseColor(vibrantDarkColor))
-    SideEffect {
-        systemUiController.setStatusBarColor(color = topAppBarBackgroundColor)
     }
 
     BottomSheetScaffold(
@@ -107,23 +102,17 @@ fun BottomSheetContent(
         modifier = Modifier
             .background(sheetBackgroundColor)
             .padding(all = PADDING_LARGE)
+            .fillMaxWidth(),
+        horizontalAlignment = Alignment.Start
     )
     {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = PADDING_LARGE),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        Text(
+            text = selectedTrain.model,
+            fontWeight = FontWeight.Bold,
+            fontSize = MaterialTheme.typography.h4.fontSize,
+            color = contentColor
+        )
 
-            Text(
-                modifier = Modifier.weight(8f),
-                text = selectedTrain.model,
-                fontWeight = FontWeight.Bold,
-                fontSize = MaterialTheme.typography.h4.fontSize,
-                color = contentColor
-            )
-        }
 
         Text(
             modifier = Modifier.padding(bottom = PADDING_SMALL),
@@ -148,13 +137,16 @@ fun BottomSheetContent(
 
 @Composable
 fun BackgroundContent(
-    imageFraction: Float = 1f,
+    imageFraction: Float = 0.6f,
     backgroundColor: Color = MaterialTheme.colors.surface,
     imageString: String,
     onCloseClicked: () -> Unit
 ) {
     val imageUrl = "$BASE_URL${imageString}"
-    val painter = rememberAsyncImagePainter(model = imageUrl)
+    val painter =
+        rememberAsyncImagePainter(model = imageUrl, onError = { R.drawable.ic_placeholder })
+
+
 
     Box(
         modifier = Modifier
@@ -195,21 +187,28 @@ fun BackgroundContent(
 @OptIn(ExperimentalMaterialApi::class)
 val BottomSheetScaffoldState.bottomSheetFraction: Float
     get() {
-        val bottomSheerFraction = bottomSheetState.progress.fraction
-        val bottomSheetTargetValue = bottomSheetState.targetValue
-        val bottomSheetCurrentValue = bottomSheetState.currentValue
+        val fraction = bottomSheetState.progress.fraction
+        val targetValue = bottomSheetState.targetValue
+        val currentValue = bottomSheetState.currentValue
 
         return when {
-            bottomSheetTargetValue == BottomSheetValue.Collapsed && bottomSheetCurrentValue == BottomSheetValue.Collapsed -> 1f
-            bottomSheetTargetValue == BottomSheetValue.Expanded && bottomSheetCurrentValue == BottomSheetValue.Expanded -> 0f
-            bottomSheetTargetValue == BottomSheetValue.Collapsed && bottomSheetCurrentValue == BottomSheetValue.Expanded -> 0f + bottomSheerFraction
-            bottomSheetTargetValue == BottomSheetValue.Expanded && bottomSheetCurrentValue == BottomSheetValue.Collapsed -> 1f - bottomSheerFraction
-            else -> bottomSheerFraction
+            currentValue == BottomSheetValue.Collapsed && targetValue == BottomSheetValue.Collapsed -> 1f
+            currentValue == Expanded && targetValue == Expanded -> 0f
+            currentValue == BottomSheetValue.Collapsed && targetValue == Expanded -> 1f - fraction
+            currentValue == Expanded && targetValue == BottomSheetValue.Collapsed -> 0f + fraction
+            else -> fraction
         }
     }
 
 @Preview(showBackground = true)
 @Composable
 fun BottomSheetContentPreview() {
-
+    BottomSheetContent(
+        selectedTrain = Train(
+            id = 1,
+            model = "Lightning ball",
+            image = "/images/agniveena_express.jpg",
+            about = "Some random text for testing"
+        )
+    )
 }

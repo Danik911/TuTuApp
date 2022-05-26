@@ -9,5 +9,5 @@ object Constants {
     const val TRAIN_DATABASE = "train_database"
 
     const val ABOUT_TEXT_MAX_LINES = 7
-    const val MIN_HEIGHT_FRACTION_VALUE = 0.4f
+    const val MIN_HEIGHT_FRACTION_VALUE = 0.7f
 }

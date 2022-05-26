@@ -25,7 +25,8 @@ fun DetailsScreen(
     if (colorsPalette.isNotEmpty()) {
         DetailsContent(
             navHostController = navHostController,
-            selectedTrain = selectedTrain, colors = colorsPalette
+            selectedTrain = selectedTrain,
+            colors = colorsPalette
         )
     } else {
         detailsViewModel.startUiEvent()
