@@ -2,6 +2,7 @@ package com.danik.tutuapp.data.remote
 
 import com.danik.tutuapp.domain.model.ApiResponse
 import com.danik.tutuapp.domain.model.Train
+import okio.IOException
 
 
 const val PREV_PAGE_KEY = "prevPage"
@@ -9,7 +10,7 @@ const val NEXT_PAGE_KEY = "nextPage"
 
 class FakeTrainApi : TrainApi {
 
-    val trains: Map<Int, List<Train>> by lazy {
+    private val trains: Map<Int, List<Train>> by lazy {
         mapOf(
             1 to page1,
             2 to page2,
@@ -17,7 +18,7 @@ class FakeTrainApi : TrainApi {
         )
     }
 
-    private val page1: List<Train> = listOf(
+    private var page1: List<Train> = listOf(
         Train(
             id = 1,
             model = "Agniveena Express",
@@ -37,7 +38,7 @@ class FakeTrainApi : TrainApi {
             about = "The name is also sometimes given to 1087/ 1088 Veraval – Pune Express, 1089/ 1090 Jodhpur – Pune Express and 1091/ 1092 Bhuj – Pune Express, as all these trains are “derived” from 1095/ 1096."
         ),
     )
-    private val page2: List<Train> = listOf(
+    private var page2: List<Train> = listOf(
         Train(
             id = 4,
             model = "Ajanta Express",
@@ -57,7 +58,7 @@ class FakeTrainApi : TrainApi {
             about = "Imam Ahmad Raza Khan, popularly known as Ala Hazrat, was a prominent Muslim Alim from Bareilly during the late 19th and early 20th centuries"
         ),
     )
-    private val page3: List<Train> = listOf(
+    private var page3: List<Train> = listOf(
         Train(
             id = 7,
             model = "Amarkantak Epress",
@@ -78,7 +79,21 @@ class FakeTrainApi : TrainApi {
         ),
     )
 
+    private var exception = false
+
+    fun throwException(){
+        exception = true
+    }
+
+    fun clearPage() {
+        page1 = listOf()
+    }
+
     override suspend fun getAllTrains(page: Int): ApiResponse {
+        if (exception){
+            throw IOException()
+        }
+        page in (1..3)
         return ApiResponse(
             success = true,
             message = "OK",
@@ -89,9 +104,24 @@ class FakeTrainApi : TrainApi {
         )
     }
 
-    private fun calculatePage(page: Int) =
-        mapOf<String, Int?>(
-            PREV_PAGE_KEY to if (page in 2..3) page.minus(1) else null,
-            NEXT_PAGE_KEY to if (page in 1..2) page.plus(1) else null
-        )
+    private fun calculatePage(page: Int): Map<String, Int?> {
+        if (page1.isEmpty()) {
+            return mapOf(PREV_PAGE_KEY to null, NEXT_PAGE_KEY to null)
+        }
+        var prevPage: Int? = page
+        var nextPage: Int? = page
+        if (page in 1..4) {
+            nextPage = nextPage?.plus(1)
+        }
+        if (page in 2..5) {
+            prevPage = prevPage?.minus(1)
+        }
+        if (page == 1) {
+            prevPage = null
+        }
+        if (page == 5) {
+            nextPage = null
+        }
+        return mapOf(PREV_PAGE_KEY to prevPage, NEXT_PAGE_KEY to nextPage)
+    }
 }
