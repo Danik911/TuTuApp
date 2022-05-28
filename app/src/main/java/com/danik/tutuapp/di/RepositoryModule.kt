@@ -1,6 +1,9 @@
 package com.danik.tutuapp.di
 
-import com.danik.tutuapp.data.repository.Repository
+import com.danik.tutuapp.data.repository.RepositoryImpl
+import com.danik.tutuapp.domain.repository.LocalDataSource
+import com.danik.tutuapp.domain.repository.RemoteDataSource
+import com.danik.tutuapp.domain.repository.Repository
 import com.danik.tutuapp.domain.use_cases.UseCases
 import com.danik.tutuapp.domain.use_cases.get_all_trains.GetAllTrainsUseCase
 import com.danik.tutuapp.domain.use_cases.get_selected_train.GetSelectedTrainUseCase
@@ -14,6 +17,18 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
+
+    @Singleton
+    @Provides
+    fun provideRepository(
+        remoteDataSource: RemoteDataSource,
+        localDataSource: LocalDataSource
+    ): Repository {
+        return RepositoryImpl(
+            remoteDataSource = remoteDataSource,
+            localDataSource = localDataSource
+        )
+    }
 
     @Singleton
     @Provides

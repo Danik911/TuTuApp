@@ -5,7 +5,6 @@ import androidx.test.core.app.ApplicationProvider
 import com.danik.tutuapp.data.local.TrainDatabase
 import com.danik.tutuapp.data.paging_source.TrainRemoteMediator
 import com.danik.tutuapp.data.remote.FakeTrainApi
-import com.danik.tutuapp.data.remote.TrainApi
 import com.danik.tutuapp.domain.model.Train
 import kotlinx.coroutines.runBlocking
 import org.junit.After
