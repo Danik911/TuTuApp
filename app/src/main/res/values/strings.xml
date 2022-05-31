@@ -4,4 +4,5 @@
     <string name="train_image">Train image</string>
     <string name="connection_error_ic">Connection Error</string>
     <string name="ic_close">icon close</string>
+    <string name="about_title">About</string>
 </resources>

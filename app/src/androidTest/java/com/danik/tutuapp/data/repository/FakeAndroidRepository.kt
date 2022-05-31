@@ -1,13 +1,13 @@
 package com.danik.tutuapp.data.repository
 
 import androidx.paging.PagingData
-import androidx.paging.PagingSource
 import com.danik.tutuapp.domain.model.Train
 import com.danik.tutuapp.domain.repository.Repository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class FakeRepository : Repository {
+class FakeAndroidRepository : Repository {
+
 
 
     private var page1: List<Train> = listOf(
@@ -68,11 +68,15 @@ class FakeRepository : Repository {
     )
 
 
+    override suspend fun getSelectedTrain(trainId: Int): Train {
+        return page1.first { train ->
+            train.id == trainId
+        }
 
-    override suspend fun getSelectedTrain(trainId: Int): Train = page1[trainId - 1]
-
+    }
 
     override fun getAllTrains(): Flow<PagingData<Train>> {
         return flow { emit(PagingData.from(page1)) }
     }
+
 }

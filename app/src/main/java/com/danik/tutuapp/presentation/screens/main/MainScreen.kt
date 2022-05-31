@@ -17,11 +17,7 @@ fun MainScreen(
 ) {
     val allTrains = viewModel.allTrains.collectAsLazyPagingItems()
 
-    val systemUiController = rememberSystemUiController()
-    val topAppBarBackgroundColor = MaterialTheme.colors.topAppBarBackgroundColor
-    SideEffect {
-        systemUiController.setStatusBarColor(color = topAppBarBackgroundColor)
-    }
+
     Scaffold(
         content = {
             ListContent(trains = allTrains, navController = navHostController)

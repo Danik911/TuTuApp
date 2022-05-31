@@ -7,13 +7,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.BottomSheetValue.Expanded
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,21 +24,18 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.danik.tutuapp.R
-import androidx.compose.ui.graphics.Color
 import com.danik.tutuapp.domain.model.Train
 import com.danik.tutuapp.ui.theme.*
 import com.danik.tutuapp.util.Constants.ABOUT_TEXT_MAX_LINES
 import com.danik.tutuapp.util.Constants.BASE_URL
 import com.danik.tutuapp.util.Constants.MIN_HEIGHT_FRACTION_VALUE
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import androidx.compose.material.BottomSheetValue.Expanded
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DetailsContent(
     navHostController: NavHostController,
     selectedTrain: Train?,
-    colors: Map<String, String>
+    colors: Map<String, String>,
 ) {
 
     val bottomSheetState = rememberBottomSheetScaffoldState(
@@ -49,22 +49,20 @@ fun DetailsContent(
         targetValue = if (imageFraction == 1f) PADDING_EXTRA_LARGE
         else 0.dp
     )
-    var vibrantColor by remember {
-        mutableStateOf("#000000")
-    }
+
     var vibrantDarkColor by remember {
-        mutableStateOf("#ffffff")
+        mutableStateOf(value = "#ffffff")
     }
     var vibrantOnDarkColor by remember {
         mutableStateOf("#000000")
     }
     LaunchedEffect(key1 = selectedTrain) {
-        vibrantColor = colors["vibrant"]!!
-        vibrantDarkColor = colors["darkVibrant"]!!
-        vibrantOnDarkColor = colors["onDarkVibrant"]!!
+
+
+        vibrantDarkColor = colors["darkVibrant"] ?: "#ffffff"
+        vibrantOnDarkColor = colors["onDarkVibrant"] ?: "#000000"
 
     }
-
     BottomSheetScaffold(
         scaffoldState = bottomSheetState,
         sheetShape = RoundedCornerShape(topStart = cornerShape, topEnd = cornerShape),
@@ -116,7 +114,7 @@ fun BottomSheetContent(
 
         Text(
             modifier = Modifier.padding(bottom = PADDING_SMALL),
-            text = "About",
+            text = stringResource(R.string.about_title),
             fontSize = MaterialTheme.typography.subtitle1.fontSize,
             fontWeight = FontWeight.Bold,
             color = contentColor
@@ -144,8 +142,10 @@ fun BackgroundContent(
 ) {
     val imageUrl = "$BASE_URL${imageString}"
     val painter =
-        rememberAsyncImagePainter(model = imageUrl, onError = { R.drawable.ic_placeholder })
-
+        rememberAsyncImagePainter(
+            model = imageUrl,
+            onError = { R.drawable.ic_placeholder },
+        )
 
 
     Box(
@@ -155,6 +155,7 @@ fun BackgroundContent(
     ) {
         Image(
             modifier = Modifier
+                .testTag("image")
                 .fillMaxWidth()
                 .fillMaxHeight(fraction = imageFraction + MIN_HEIGHT_FRACTION_VALUE)
                 .align(alignment = Alignment.TopStart),

@@ -1,7 +1,7 @@
 package com.danik.tutuapp.presentation.screens.main
 
 import ShimmerEffect
-import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,6 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,6 +27,8 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
 import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter.State.Empty.painter
+import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import com.danik.tutuapp.R
 import com.danik.tutuapp.domain.model.Train
@@ -32,6 +36,7 @@ import com.danik.tutuapp.navigation.Screen
 import com.danik.tutuapp.presentation.common.EmptyScreen
 import com.danik.tutuapp.ui.theme.*
 import com.danik.tutuapp.util.Constants.BASE_URL
+import com.danik.tutuapp.util.TestTags.LAZY_COLUMN
 
 
 @Composable
@@ -40,8 +45,8 @@ fun ListContent(trains: LazyPagingItems<Train>, navController: NavHostController
     val listState = handleListState(train = trains)
 
     if (listState) {
-        Log.d("ListContent", trains.loadState.toString())
         LazyColumn(
+modifier = Modifier.testTag(LAZY_COLUMN),
             contentPadding = PaddingValues(PADDING_SMALL),
             verticalArrangement = Arrangement.spacedBy(PADDING_SMALL)
         ) {
@@ -109,6 +114,7 @@ fun TrainItem(train: Train, navController: NavHostController) {
             modifier = Modifier.fillMaxSize(),
             shape = RoundedCornerShape(PADDING_LARGE)
         ) {
+
             AsyncImage(
                 modifier = Modifier.fillMaxSize(),
                 model = ImageRequest.Builder(LocalContext.current)

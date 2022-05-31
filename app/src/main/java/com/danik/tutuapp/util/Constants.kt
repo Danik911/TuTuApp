@@ -1,7 +1,8 @@
 package com.danik.tutuapp.util
 
 object Constants {
-    const val BASE_URL = "http://10.0.2.2:8080"
+    //const val BASE_URL = "http://10.0.2.2:8080"
+    const val BASE_URL = "https://tutu-server.herokuapp.com/"
 
     const val TRAIN_ID_ARGUMENT_KEY = "trainId"
     const val TRAIN_DATABASE_TABLE = "train_database_table"
