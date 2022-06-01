@@ -98,6 +98,10 @@ dependencies {
     implementation "com.google.accompanist:accompanist-pager:$accompanist_version"
     implementation "com.google.accompanist:accompanist-pager-indicators:$accompanist_version"
 
+    // WorkManager with Coroutines
+    implementation "androidx.work:work-runtime-ktx:2.7.1"
+    implementation 'androidx.hilt:hilt-work:1.0.0'
+
     // Swipe to Refresh - Accompanist
     implementation "com.google.accompanist:accompanist-swiperefresh:$accompanist_version"
 
@@ -117,4 +121,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2"
+
+
+
 }
